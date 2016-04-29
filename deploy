@@ -76,8 +76,14 @@ log() {
 #
 
 config_get() {
-    local key=$1
-    echo $(expr "$conf" : '.*"'$key'":"\([^"]*\)"')
+  local key=$1
+  local val=$(expr "$conf" : '.*"'$key'":"\([^"]*\)"')
+  if [[ $key == path ]]
+  then
+    readlink -f $val
+  else
+    echo $val
+  fi
 }
 
 #
